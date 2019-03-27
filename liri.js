@@ -16,7 +16,11 @@ var runUserCommand = function() {
         spotify.search({type: 'track', query: arg, limit: 5})
         .then(function(response) {
             for (var i = 0; i < response.tracks.items.length; i++) {
+                console.log("Result " + (i + 1));
                 console.log("Artist/Band: " + response.tracks.items[i].artists[0].name);
+                console.log("Song Title: " + response.tracks.items[i].name);
+                console.log("Preview Link: " + response.tracks.items[i].preview_url);
+
             }
             // console.log(JSON.stringify(response, null, 2));
         })
