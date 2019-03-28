@@ -6,11 +6,23 @@ var Spotify = require("node-spotify-api");
 
 var spotify = new Spotify(keys.spotify);
 
+var axios = require("axios");
+
+var userArgs = process.argv;
+
 var userCommand = process.argv[2];
 
-var arg = process.argv[3];
+var arg = "";
 
 var runUserCommand = function() {
+    for (var x = 3; x < userArgs.length; x++) {
+        if (x > 3 && x < userArgs.length) {
+            arg = arg + "+" + userArgs[x];
+        } else {
+            arg += userArgs[x];
+        }
+    }
+
     if (userCommand === "spotify-this-song") {
         if (arg) {
             spotify.search({type: 'track', query: arg, limit: 5})
@@ -45,6 +57,10 @@ var runUserCommand = function() {
                 console.log(err);
             });
         }
+    }
+
+    if (userCommand === "concert-this") {
+
     }
 }
 
