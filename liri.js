@@ -60,7 +60,14 @@ var runUserCommand = function() {
     }
 
     if (userCommand === "concert-this") {
+        var queryURL = "https://rest.bandsintown.com/artists/" + arg + "/events?app_id=codingbootcamp";
 
+        axios.get(queryURL)
+            .then(function(response) {
+                console.log(response.data[0].venue.name);
+                console.log(response.data[0].venue.city + ", " + response.data[0].venue.country);
+                console.log(response.data[0].datetime);
+            });
     }
 }
 
