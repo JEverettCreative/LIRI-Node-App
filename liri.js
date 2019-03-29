@@ -74,10 +74,24 @@ var runUserCommand = function() {
                     console.log(moment(response.data[i].datetime).format("MM/DD/YYYY"));
                     console.log("\n-----------------");
                 }
-                // console.log(response.data);
-                // console.log(response.data[0].venue.name);
-                // console.log(response.data[0].venue.city + ", " + response.data[0].venue.country);
-                // console.log(response.data[0].datetime);
+            });
+    }
+
+    if (userCommand === "movie-this") {
+        var queryURL = "http://www.omdbapi.com/?apikey=trilogy&t=" + arg;
+
+        axios.get(queryURL)
+            .then(function(response) {
+                    console.log("\n---------------------");
+                    console.log("Title: " + response.data.Title);
+                    console.log("Release: " + response.data.Year);
+                    console.log("IMDb Rating: " + response.data.imdbRating);
+                    console.log("Rotten Tomatoes: " + response.data.Ratings[1].Value);
+                    console.log("Country of Production: " + response.data.Country);
+                    console.log("Language: " + response.data.Language);
+                    console.log("Plot: " + response.data.Plot);
+                    console.log("Actors: " + response.data.Actors);
+                    console.log("\n---------------------");
             });
     }
 }
