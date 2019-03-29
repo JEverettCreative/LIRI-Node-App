@@ -10,11 +10,15 @@ var axios = require("axios");
 
 var moment = require("moment");
 
+var fs = require("fs");
+
 var userArgs = process.argv;
 
 var userCommand = process.argv[2];
 
 var arg = "";
+
+var dataArr = [];
 
 var runUserCommand = function() {
     for (var x = 3; x < userArgs.length; x++) {
@@ -78,21 +82,57 @@ var runUserCommand = function() {
     }
 
     if (userCommand === "movie-this") {
-        var queryURL = "http://www.omdbapi.com/?apikey=trilogy&t=" + arg;
+        if (arg) {
+            var queryURL = "http://www.omdbapi.com/?apikey=trilogy&t=" + arg;
+            
+            axios.get(queryURL)
+                .then(function(response) {
+                        console.log("\n---------------------");
+                        console.log("Title: " + response.data.Title);
+                        console.log("Release: " + response.data.Year);
+                        console.log("IMDb Rating: " + response.data.imdbRating);
+                        console.log("Rotten Tomatoes: " + response.data.Ratings[1].Value);
+                        console.log("Country of Production: " + response.data.Country);
+                        console.log("Language: " + response.data.Language);
+                        console.log("Plot: " + response.data.Plot);
+                        console.log("Actors: " + response.data.Actors);
+                        console.log("\n---------------------");
+                });
+        }
+        else if (!arg) {
+            var queryURL = "http://www.omdbapi.com/?apikey=trilogy&t=Mr+Nobody";
 
-        axios.get(queryURL)
-            .then(function(response) {
-                    console.log("\n---------------------");
-                    console.log("Title: " + response.data.Title);
-                    console.log("Release: " + response.data.Year);
-                    console.log("IMDb Rating: " + response.data.imdbRating);
-                    console.log("Rotten Tomatoes: " + response.data.Ratings[1].Value);
-                    console.log("Country of Production: " + response.data.Country);
-                    console.log("Language: " + response.data.Language);
-                    console.log("Plot: " + response.data.Plot);
-                    console.log("Actors: " + response.data.Actors);
-                    console.log("\n---------------------");
-            });
+            axios.get(queryURL)
+                .then(function(response) {
+                        console.log("\n---------------------");
+                        console.log("Title: " + response.data.Title);
+                        console.log("Release: " + response.data.Year);
+                        console.log("IMDb Rating: " + response.data.imdbRating);
+                        console.log("Rotten Tomatoes: " + response.data.Ratings[1].Value);
+                        console.log("Country of Production: " + response.data.Country);
+                        console.log("Language: " + response.data.Language);
+                        console.log("Plot: " + response.data.Plot);
+                        console.log("Actors: " + response.data.Actors);
+                        console.log("\n---------------------");
+                });
+        }
+    }
+
+    if (userCommand === "do-what-it-says") {
+        fs.readFile("random.txt", "utf8", function(error, data) {
+            if (error) {
+                return console.log(error);
+            }
+
+            dataArr = data.split(", ");
+
+            userCommand = dataArr[0];
+            arg = dataArr[1];
+            runUserCommand();
+            // console.log(userCommand);
+            // console.log(arg);
+            
+        });
     }
 }
 
