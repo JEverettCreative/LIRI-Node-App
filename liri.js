@@ -8,6 +8,8 @@ var spotify = new Spotify(keys.spotify);
 
 var axios = require("axios");
 
+var moment = require("moment");
+
 var userArgs = process.argv;
 
 var userCommand = process.argv[2];
@@ -64,9 +66,18 @@ var runUserCommand = function() {
 
         axios.get(queryURL)
             .then(function(response) {
-                console.log(response.data[0].venue.name);
-                console.log(response.data[0].venue.city + ", " + response.data[0].venue.country);
-                console.log(response.data[0].datetime);
+                console.log(arg + " is playing the following shows: ");
+                for (var i = 0; i < response.data.length; i ++) {
+                    
+                    console.log("Venue: " + response.data[i].venue.name);
+                    console.log("Location: " + response.data[i].venue.city + ", " + response.data[i].venue.country);
+                    console.log(moment(response.data[i].datetime).format("MM/DD/YYYY"));
+                    console.log("\n-----------------");
+                }
+                // console.log(response.data);
+                // console.log(response.data[0].venue.name);
+                // console.log(response.data[0].venue.city + ", " + response.data[0].venue.country);
+                // console.log(response.data[0].datetime);
             });
     }
 }
